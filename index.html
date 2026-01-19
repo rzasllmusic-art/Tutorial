@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyll Group - Beranda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash Screen Awal -->
+    <div id="splash" class="splash">
+        <div class="welcome-content">
+            <h1 class="welcome-title">Selamat Datang di Zyll Group</h1>
+            <p class="welcome-info">Platform inovatif untuk tutorial, informasi, dan penghasilan Anda. Mulai perjalanan Anda sekarang!</p>
+            <button id="start-btn" class="start-btn">Start</button>
+        </div>
+    </div>
+
+    <!-- Konten Utama (Beranda) -->
+    <div id="main-content" class="main-content hidden">
+        <!-- Header dengan Menu Hamburger -->
+        <header class="header">
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+
+        <!-- Menu Slide-In -->
+        <nav id="menu" class="menu">
+            <ul>
+                <li><a href="#" onclick="showPage('home')">Beranda</a></li>
+                <li><a href="#" onclick="showPage('tutorial')">Tutorial</a></li>
+                <li><a href="#" onclick="showPage('info')">Informasi</a></li>
+            </ul>
+        </nav>
+
+        <!-- Halaman Konten -->
+        <div id="home" class="page active">
+            <h2>Beranda Zyll Group</h2>
+            <p>Selamat datang di platform kami. Jelajahi tutorial dan informasi untuk meningkatkan penghasilan Anda.</p>
+        </div>
+
+        <div id="tutorial" class="page">
+            <h2>Tutorial</h2>
+            <div class="video-container">
+                <h3>1. Cara Menggunakan ChatGPT</h3>
+                <video controls>
+                    <source src="media/tutorial1.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung video.
+                </video>
+            </div>
+            <div class="video-container">
+                <h3>2. Cara Upload Upscale yang Benar</h3>
+                <video controls>
+                    <source src="media/tutorial2.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung video.
+                </video>
+            </div>
+            <div class="video-container">
+                <h3>3. Cara ZArchiver yang Benar</h3>
+                <video controls>
+                    <source src="media/tutorial3.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung video.
+                </video>
+            </div>
+        </div>
+
+        <div id="info" class="page">
+            <h2>Informasi Penghasilan</h2>
+            <p>Berikut adalah ringkasan penghasilan selama 1 tahun:</p>
+            <div id="penghasilan-content">
+                <!-- Placeholder untuk penghasilan. Tambahkan data di sini atau via JS -->
+                <p>Total Penghasilan: Rp 100.000.000 (Contoh). Edit di zyll.js untuk data dinamis.</p>
+                <ul>
+                    <li>Bulan 1: Rp 5.000.000</li>
+                    <li>Bulan 2: Rp 6.000.000</li>
+                    <!-- Tambahkan lebih banyak data -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="zyll.js"></script>
+</body>
+</html>
