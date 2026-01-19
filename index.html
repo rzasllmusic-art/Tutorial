@@ -21,7 +21,7 @@
             min-height: 100vh;
         }
 
-        /* Particles untuk Motif Cahaya - Lebih Dinamis */
+        /* Particles untuk Motif Cahaya - Dikurangi untuk Performansi */
         #particles {
             position: fixed;
             top: 0;
@@ -36,7 +36,7 @@
             position: absolute;
             background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
             border-radius: 50%;
-            animation: float 10s infinite linear, glow 2s infinite alternate;
+            animation: float 10s infinite linear;
         }
 
         @keyframes float {
@@ -44,11 +44,6 @@
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-            100% { box-shadow: 0 0 30px rgba(255,255,255,1); }
         }
 
         /* Efek Glass - Lebih Canggih */
@@ -291,6 +286,40 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.7);
         }
 
+        /* Informasi Keuangan - Tampilan Bulat */
+        .finance-info {
+            margin: 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .finance-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #007aff, #5856d6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .finance-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 122, 255, 0.5);
+        }
+
+        .finance-circle .amount {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
         /* Tabel Penghasilan - Lebih Visual dengan Chart Sederhana */
         #penghasilan {
             margin: 40px 0;
@@ -353,6 +382,14 @@
                 width: 30px;
                 margin: 0 5px;
             }
+            .finance-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 16px;
+            }
+            .finance-circle .amount {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -391,6 +428,13 @@
         <section id="beranda" class="page active">
             <h1>Selamat Datang di Zyll Group</h1>
             <p>Platform terdepan untuk inovasi dan penghasilan. Jelajahi fitur kami!</p>
+            <!-- Informasi Keuangan di Beranda -->
+            <div class="finance-info">
+                <div class="finance-circle glass">
+                    <span>Penghasilan Bulan Ini</span>
+                    <span class="amount">0 Rupiah</span>
+                </div>
+            </div>
         </section>
 
         <!-- Tutorial -->
@@ -424,9 +468,9 @@
             <h1>Informasi Penghasilan</h1>
             <p>Berikut adalah ringkasan penghasilan selama 1 tahun terakhir. (Edit bagian ini untuk menambahkan data penghasilan Anda dengan simpel, misalnya tambah bar di chart.)</p>
             <div id="penghasilan">
-                <!-- Chart Sederhana dengan CSS -->
+                <!-- Chart Sederhana dengan CSS - Dimulai dari 0 untuk Bulan Ini -->
                 <div class="chart glass">
-                    <div class="bar" style="height: 50%;" data-value="Jan: 10M"></div>
+                    <div class="bar" style="height: 0%;" data-value="Jan: 0 Rupiah"></div>
                     <div class="bar" style="height: 60%;" data-value="Feb: 12M"></div>
                     <div class="bar" style="height: 70%;" data-value="Mar: 14M"></div>
                     <div class="bar" style="height: 80%;" data-value="Apr: 16M"></div>
@@ -439,15 +483,15 @@
     </main>
 
     <script>
-        // Animasi Particles Background - Lebih Banyak dan Random
+        // Animasi Particles Background - Dikurangi Jumlah untuk Performansi
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 100; i++) { // Lebih banyak particles
+            for (let i = 0; i < 20; i++) { // Dikurangi dari 100 ke 20
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.width = particle.style.height = Math.random() * 15 + 5 + 'px'; // Ukuran random
+                particle.style.width = particle.style.height = Math.random() * 10 + 5 + 'px'; // Ukuran lebih kecil
                 particlesContainer.appendChild(particle);
             }
         }
@@ -482,4 +526,4 @@
         });
     </script>
 </body>
-        </html>
+    </html>
