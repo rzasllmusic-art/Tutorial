@@ -4,84 +4,482 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zyll Group - Beranda</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset dan Font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Particles untuk Motif Cahaya - Lebih Dinamis */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: float 10s infinite linear, glow 2s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+            100% { box-shadow: 0 0 30px rgba(255,255,255,1); }
+        }
+
+        /* Efek Glass - Lebih Canggih */
+        .glass {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .glass:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Popup Selamat Datang - Lebih Menarik dengan Bounce */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeInBounce 0.8s ease-out;
+        }
+
+        .popup-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 400px;
+            animation: bounceIn 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInBounce {
+            0% { opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #007aff, #5856d6);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 122, 255, 0.4);
+        }
+
+        /* Header dan Menu - Animasi Slide Stagger */
+        header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .hamburger {
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger:hover {
+            transform: rotate(90deg);
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            padding: 80px 20px;
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            animation: slideInRight 0.5s ease-out both;
+        }
+
+        .nav-menu li:nth-child(1) { animation-delay: 0.1s; }
+        .nav-menu li:nth-child(2) { animation-delay: 0.2s; }
+        .nav-menu li:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            display: block;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #007aff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        /* Konten Halaman - Animasi Fade dan Parallax */
+        main {
+            padding: 100px 20px;
+            text-align: center;
+            transform: translateZ(0); /* Enable hardware acceleration */
+        }
+
+        .page {
+            display: none;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #007aff, #ff2d55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+
+        .video-container {
+            margin: 40px 0;
+            perspective: 1000px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        video:hover {
+            transform: rotateY(5deg) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+        }
+
+        /* Tabel Penghasilan - Lebih Visual dengan Chart Sederhana */
+        #penghasilan {
+            margin: 40px 0;
+        }
+
+        .chart {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 300px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .bar {
+            width: 50px;
+            margin: 0 10px;
+            background: linear-gradient(to top, #007aff, #5856d6);
+            border-radius: 10px 10px 0 0;
+            transition: height 1s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .bar:hover {
+            transform: scale(1.1);
+        }
+
+        .bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 12px;
+        }
+
+        /* Responsivitas */
+        @media (max-width: 768px) {
+            .popup-content {
+                padding: 20px;
+                max-width: 90%;
+            }
+            .nav-menu {
+                width: 250px;
+            }
+            main {
+                padding: 80px 10px;
+            }
+            video {
+                max-width: 100%;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .chart {
+                height: 200px;
+            }
+            .bar {
+                width: 30px;
+                margin: 0 5px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Splash Screen Awal -->
-    <div id="splash" class="splash">
-        <div class="welcome-content">
-            <h1 class="welcome-title">Selamat Datang di Zyll Group</h1>
-            <p class="welcome-info">Platform inovatif untuk tutorial, informasi, dan penghasilan Anda. Mulai perjalanan Anda sekarang!</p>
-            <button id="start-btn" class="start-btn">Start</button>
+    <!-- Background Particles -->
+    <div id="particles"></div>
+
+    <!-- Popup Selamat Datang -->
+    <div id="welcome-popup" class="popup">
+        <div class="popup-content glass">
+            <h1>Selamat Datang di Zyll Group</h1>
+            <p>Zyll Group adalah platform inovatif untuk belajar dan menghasilkan. Temukan tutorial, informasi penghasilan, dan lebih banyak lagi!</p>
+            <button id="start-btn" class="btn">Mulai</button>
         </div>
     </div>
 
-    <!-- Konten Utama (Beranda) -->
-    <div id="main-content" class="main-content hidden">
-        <!-- Header dengan Menu Hamburger -->
-        <header class="header">
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </header>
-
-        <!-- Menu Slide-In -->
-        <nav id="menu" class="menu">
+    <!-- Header dengan Menu Hamburger -->
+    <header>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="nav-menu" class="nav-menu glass">
             <ul>
-                <li><a href="#" onclick="showPage('home')">Beranda</a></li>
-                <li><a href="#" onclick="showPage('tutorial')">Tutorial</a></li>
-                <li><a href="#" onclick="showPage('info')">Informasi</a></li>
+                <li><a href="#beranda" onclick="showPage('beranda')">Beranda</a></li>
+                <li><a href="#tutorial" onclick="showPage('tutorial')">Tutorial</a></li>
+                <li><a href="#informasi" onclick="showPage('informasi')">Informasi</a></li>
             </ul>
         </nav>
+    </header>
 
-        <!-- Halaman Konten -->
-        <div id="home" class="page active">
-            <h2>Beranda Zyll Group</h2>
-            <p>Selamat datang di platform kami. Jelajahi tutorial dan informasi untuk meningkatkan penghasilan Anda.</p>
-        </div>
+    <!-- Konten Halaman -->
+    <main>
+        <!-- Beranda -->
+        <section id="beranda" class="page active">
+            <h1>Selamat Datang di Zyll Group</h1>
+            <p>Platform terdepan untuk inovasi dan penghasilan. Jelajahi fitur kami!</p>
+        </section>
 
-        <div id="tutorial" class="page">
-            <h2>Tutorial</h2>
+        <!-- Tutorial -->
+        <section id="tutorial" class="page">
+            <h1>Tutorial</h1>
             <div class="video-container">
-                <h3>1. Cara Menggunakan ChatGPT</h3>
+                <h2>1. Cara Menggunakan ChatGPT</h2>
                 <video controls>
                     <source src="media/tutorial1.mp4" type="video/mp4">
                     Browser Anda tidak mendukung video.
                 </video>
             </div>
             <div class="video-container">
-                <h3>2. Cara Upload Upscale yang Benar</h3>
+                <h2>2. Cara Upload Upscale yang Benar</h2>
                 <video controls>
                     <source src="media/tutorial2.mp4" type="video/mp4">
                     Browser Anda tidak mendukung video.
                 </video>
             </div>
             <div class="video-container">
-                <h3>3. Cara ZArchiver yang Benar</h3>
+                <h2>3. Cara ZArchiver yang Benar</h2>
                 <video controls>
                     <source src="media/tutorial3.mp4" type="video/mp4">
                     Browser Anda tidak mendukung video.
                 </video>
             </div>
-        </div>
+        </section>
 
-        <div id="info" class="page">
-            <h2>Informasi Penghasilan</h2>
-            <p>Berikut adalah ringkasan penghasilan selama 1 tahun:</p>
-            <div id="penghasilan-content">
-                <!-- Placeholder untuk penghasilan. Tambahkan data di sini atau via JS -->
-                <p>Total Penghasilan: Rp 100.000.000 (Contoh). Edit di zyll.js untuk data dinamis.</p>
-                <ul>
-                    <li>Bulan 1: Rp 5.000.000</li>
-                    <li>Bulan 2: Rp 6.000.000</li>
-                    <!-- Tambahkan lebih banyak data -->
-                </ul>
+        <!-- Informasi (Penghasilan) -->
+        <section id="informasi" class="page">
+            <h1>Informasi Penghasilan</h1>
+            <p>Berikut adalah ringkasan penghasilan selama 1 tahun terakhir. (Edit bagian ini untuk menambahkan data penghasilan Anda dengan simpel, misalnya tambah bar di chart.)</p>
+            <div id="penghasilan">
+                <!-- Chart Sederhana dengan CSS -->
+                <div class="chart glass">
+                    <div class="bar" style="height: 50%;" data-value="Jan: 10M"></div>
+                    <div class="bar" style="height: 60%;" data-value="Feb: 12M"></div>
+                    <div class="bar" style="height: 70%;" data-value="Mar: 14M"></div>
+                    <div class="bar" style="height: 80%;" data-value="Apr: 16M"></div>
+                    <div class="bar" style="height: 90%;" data-value="May: 18M"></div>
+                    <div class="bar" style="height: 100%;" data-value="Jun: 20M"></div>
+                    <!-- Tambahkan lebih banyak bar sesuai data Anda -->
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <script src="zyll.js"></script>
+    <script>
+        // Animasi Particles Background - Lebih Banyak dan Random
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 100; i++) { // Lebih banyak particles
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = particle.style.height = Math.random() * 15 + 5 + 'px'; // Ukuran random
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Popup Selamat Datang
+        document.getElementById('start-btn').addEventListener('click', () => {
+            document.getElementById('welcome-popup').style.display = 'none';
+        });
+
+        // Toggle Menu Hamburger dengan Animasi
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('hamburger').classList.toggle('active');
+            document.getElementById('nav-menu').classList.toggle('active');
+        });
+
+        // Navigasi Halaman
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('hamburger').classList.remove('active');
+            document.getElementById('nav-menu').classList.remove('active');
+        }
+
+        // Default tampilkan beranda
+        showPage('beranda');
+
+        // Efek Parallax Ringan pada Scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.body.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
+    </script>
 </body>
-</html>
+        </html>
